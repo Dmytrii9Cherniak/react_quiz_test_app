@@ -53,3 +53,22 @@
     align-items: center;
   }
 }
+
+@media screen and (max-width: 810px) {
+  .homeComponent header {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}
+
+@media screen and (max-width: 588px) {
+  .homeComponent {
+    padding: 40px 20px;
+
+    main ul {
+      width: 100%;
+      padding-right: 26px
+
+    }
+  }
+}
