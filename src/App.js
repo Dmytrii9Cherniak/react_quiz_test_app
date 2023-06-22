@@ -1,8 +1,8 @@
 import './App.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import Play from './components/Play';
-import Results from './components/Results';
+import Home from './components/home/Home';
+import Play from './components/play/Play';
+import Results from './components/results/Results';
 
 function App() {
   return (
