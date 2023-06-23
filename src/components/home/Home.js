@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { quizService } from '../../services/quizService';
+import { QuizContext } from '../../hoc/quizProvider';
+import { useNavigate } from 'react-router-dom';
 import '../home/Home.scss';
 
 function Home() {
     const [quizCategories, setQuizCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { setCertainQuizCategory } = useContext(QuizContext);
+    const navigate = useNavigate();
 
     const getRandomQuizCategory = () => {
         const randomIndex = Math.floor(Math.random() * quizCategories.length);
         const randomCategory = quizCategories[randomIndex];
-        console.log('Random Quiz Category:', randomCategory);
+        setCertainQuizCategory(randomCategory);
+        localStorage.setItem('category', randomCategory);
+        playQuiz();
+    };
+
+    const playQuiz = () => navigate('/play');
+
+    const selectCategory = () => {
+        playQuiz();
     };
 
     useEffect(() => {
-        quizService.getAllTestCategories().then(data => {
-            setIsLoading(true);
+        setIsLoading(true);
+        quizService.getAllTestCategories().then((data) => {
             setQuizCategories(data.trivia_categories);
             setIsLoading(false);
-            console.log('Quiz Categories:', data);
         });
     }, []);
 
@@ -39,10 +50,12 @@ function Home() {
                     </div>
                 ) : (
                     <ul>
-                        {quizCategories.map(category => (
+                        {quizCategories.map((category) => (
                             <li key={category.id} className="list-group-item">
                                 {category.name}
-                                <button className="btn btn-success">Select Category</button>
+                                <button className="btn btn-success" onClick={selectCategory}>
+                                    Select Category
+                                </button>
                             </li>
                         ))}
                     </ul>

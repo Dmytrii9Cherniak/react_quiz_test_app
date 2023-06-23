@@ -1,20 +1,20 @@
-import './App.scss';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from './components/home/Home';
 import Play from './components/play/Play';
 import Results from './components/results/Results';
 
 function App() {
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Navigate to="/home" /> } />
-        <Route path="/home" element={<Home /> } />
-        <Route path="/play" element={<Play /> } />
-        <Route path="/results" element={<Results />} />
-      </Routes>
-    </div>
-  );
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Navigate to="/home" replace />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/play" element={<Play />} />
+                <Route path="/results" element={<Results />} />
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
