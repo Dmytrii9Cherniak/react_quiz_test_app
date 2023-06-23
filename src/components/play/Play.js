@@ -61,9 +61,9 @@ function Play() {
                         </button>
                     </article>
                 </div>
-                )}
+            )}
             {isQuizInProgress && testQuestions.length > 0 && (
-                <div>
+                <div className="form">
                     <nav>
                         <h2>Question {currentQuestionIndex + 1}</h2>
                         <button className="btn btn-warning" onClick={cancelMyCurrentQuiz}>
