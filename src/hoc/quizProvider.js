@@ -14,21 +14,21 @@ export const QuizProvider = ({ children }) => {
 
     const addTotalQuizPlayed = () => setTotalQuizPlayed(totalQuizPlayed + 1);
 
-    // const recordAnswers = (quizAnswer) =>  {
-    //     return quizAnswer
-    //         ? setTotalCorrectTrueAnswers(totalCorrectAnswers + 1)
-    //         : setTotalIncorrectAnswers(totalIncorrectAnswers + 1);
-    // }
+    const recordAnswers = (quizAnswer) =>  {
+        return quizAnswer
+            ? setTotalCorrectTrueAnswers(totalCorrectAnswers + 1)
+            : setTotalIncorrectAnswers(totalIncorrectAnswers + 1);
+    }
 
     const value = {
         isQuizInProgress,
         stopQuiz,
         startQuiz,
-        addTotalQuizPlayed
-        // recordAnswers,
+        addTotalQuizPlayed,
+        recordAnswers,
         // totalIncorrectAnswers,
         // totalCorrectAnswers,
-        // totalQuizPlayed,
+        totalQuizPlayed,
         // addTotalQuizPlayed
     };
 

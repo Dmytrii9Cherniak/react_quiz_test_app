@@ -10,7 +10,7 @@ function Play() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentQuizCategory] = useState(JSON.parse(localStorage.getItem('category')));
     const [isRadioButtonSelected, setIsRadioButtonSelected] = useState(false);
-    const { isQuizInProgress, startQuiz, stopQuiz, addTotalQuizPlayed } = useContext(QuizContext);
+    const { isQuizInProgress, startQuiz, stopQuiz, addTotalQuizPlayed, recordAnswers } = useContext(QuizContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,8 +46,10 @@ function Play() {
         navigate('/results');
     }
 
-    const radioButtonGetValue = () => {
+    const radioButtonGetValue = (value) => {
         setIsRadioButtonSelected(true);
+        const isTrue = value === testQuestions[currentQuestionIndex].correct_answer;
+        recordAnswers(isTrue);
     };
 
     return (
@@ -83,8 +85,8 @@ function Play() {
                                     className="form-check-input"
                                     type="radio"
                                     id="rightAnswer"
-                                    name="answerSelection" // Змінено ім'я на "answerSelection"
-                                    onChange={radioButtonGetValue}
+                                    name="answerSelection"
+                                    onChange={() => radioButtonGetValue(testQuestions[currentQuestionIndex].correct_answer)}
                                     value={testQuestions[currentQuestionIndex].correct_answer}
                                 />
                                 <label className="form-check-label" htmlFor="rightAnswer">
@@ -97,8 +99,8 @@ function Play() {
                                         className="form-check-input"
                                         type="radio"
                                         id={answer + index}
-                                        name="answerSelection" // Змінено ім'я на "answerSelection"
-                                        onChange={radioButtonGetValue}
+                                        name="answerSelection"
+                                        onChange={() => radioButtonGetValue(answer)}
                                         value={answer}
                                     />
                                     <label className="form-check-label" htmlFor={answer + index}>
