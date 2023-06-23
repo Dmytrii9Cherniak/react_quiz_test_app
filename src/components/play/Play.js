@@ -5,17 +5,19 @@ import { quizService } from '../../services/quizService';
 import '../play/Play.scss';
 
 function Play() {
-    const [testQuestions, setTestQuestions] = useState();
+    const [testQuestions, setTestQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const { isQuizInProgress, startQuiz, stopQuiz, currentQuizCategory } = useContext(QuizContext);
+    const { isQuizInProgress, startQuiz, stopQuiz, currentQuizCategory, setCertainQuizCategory } = useContext(QuizContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(currentQuizCategory);
-    }, [isQuizInProgress, currentQuizCategory]);
+        const storedCategory = localStorage.getItem('currentQuizCategory');
+        storedCategory && setCertainQuizCategory(JSON.parse(storedCategory));
+    }, []);
 
     useEffect(() => {
-        quizService.getAllTestsQuestions(currentQuizCategory.id).then(data => setTestQuestions(data));
+        currentQuizCategory && localStorage.setItem('currentQuizCategory', JSON.stringify(currentQuizCategory));
+        currentQuizCategory && quizService.getAllTestsQuestions(currentQuizCategory.id).then(data => setTestQuestions(data.results));
     }, [currentQuizCategory]);
 
     const goHome = () => navigate('/home');
@@ -26,13 +28,6 @@ function Play() {
 
     const stopMyCurrentQuiz = () => {
         stopQuiz();
-    };
-
-
-    const getValueAndCheckCorrectAnswer = () => {
-        const formValue = this.getQuizFormValue()?.value.trim();
-        const quizData = testQuestions.results[currentQuestionIndex].correct_answer;
-        this.isAnswerCorrect = formValue === quizData;
     };
 
     return (

@@ -14,13 +14,18 @@ function Home() {
         const randomIndex = Math.floor(Math.random() * quizCategories.length);
         const randomCategory = quizCategories[randomIndex];
         setCertainQuizCategory(randomCategory);
-        localStorage.setItem('category', randomCategory);
         playQuiz();
     };
 
     const playQuiz = () => navigate('/play');
 
-    const selectCategory = () => {
+    const selectCategory = (id, name) => {
+        const currentCategory = {
+            id: id,
+            name: name
+        };
+        setCertainQuizCategory(currentCategory);
+        localStorage.setItem('category', JSON.stringify(currentCategory));
         playQuiz();
     };
 
@@ -53,7 +58,8 @@ function Home() {
                         {quizCategories.map((category) => (
                             <li key={category.id} className="list-group-item">
                                 {category.name}
-                                <button className="btn btn-success" onClick={selectCategory}>
+                                <button className="btn btn-success"
+                                        onClick={() => selectCategory(category.id, category.name)}>
                                     Select Category
                                 </button>
                             </li>
