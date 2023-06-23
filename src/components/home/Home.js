@@ -8,6 +8,7 @@ function Home() {
 
     const [quizCategories, setQuizCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { stopQuiz } = useContext(QuizContext)
     const navigate = useNavigate();
 
     const getRandomQuizCategory = () => {
@@ -34,6 +35,7 @@ function Home() {
             setQuizCategories(data.trivia_categories);
             setIsLoading(false);
         });
+        stopQuiz();
     }, []);
 
     return (

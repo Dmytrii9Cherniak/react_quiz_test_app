@@ -5,14 +5,14 @@ export const QuizContext = createContext();
 export const QuizProvider = ({ children }) => {
 
     const [isQuizInProgress, setQuizInProgress] = useState(false);
-    // const [totalQuizPlayed, setTotalQuizPlayed] = useState(0);
-    // const [totalCorrectAnswers, setTotalCorrectTrueAnswers] = useState(0);
-    // const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
+    const [totalQuizPlayed, setTotalQuizPlayed] = useState(0);
+    const [totalCorrectAnswers, setTotalCorrectTrueAnswers] = useState(0);
+    const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
 
     const startQuiz = () => setQuizInProgress(true);
     const stopQuiz = () => setQuizInProgress(false);
 
-    // const addTotalQuizPlayed = () => setTotalQuizPlayed(totalQuizPlayed + 1);
+    const addTotalQuizPlayed = () => setTotalQuizPlayed(totalQuizPlayed + 1);
 
     // const recordAnswers = (quizAnswer) =>  {
     //     return quizAnswer
@@ -24,6 +24,7 @@ export const QuizProvider = ({ children }) => {
         isQuizInProgress,
         stopQuiz,
         startQuiz,
+        addTotalQuizPlayed
         // recordAnswers,
         // totalIncorrectAnswers,
         // totalCorrectAnswers,
