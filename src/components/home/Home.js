@@ -5,27 +5,26 @@ import { useNavigate } from 'react-router-dom';
 import '../home/Home.scss';
 
 function Home() {
+
     const [quizCategories, setQuizCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { setCertainQuizCategory } = useContext(QuizContext);
     const navigate = useNavigate();
 
     const getRandomQuizCategory = () => {
         const randomIndex = Math.floor(Math.random() * quizCategories.length);
         const randomCategory = quizCategories[randomIndex];
-        setCertainQuizCategory(randomCategory);
+        localStorage.setItem('category', JSON.stringify(randomCategory));
         playQuiz();
     };
 
     const playQuiz = () => navigate('/play');
 
     const selectCategory = (id, name) => {
-        const currentCategory = {
+        const selectedCategory = {
             id: id,
             name: name
         };
-        setCertainQuizCategory(currentCategory);
-        localStorage.setItem('category', JSON.stringify(currentCategory));
+        localStorage.setItem('category', JSON.stringify(selectedCategory));
         playQuiz();
     };
 

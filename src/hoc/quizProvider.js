@@ -3,19 +3,32 @@ import React, { createContext, useState } from 'react';
 export const QuizContext = createContext();
 
 export const QuizProvider = ({ children }) => {
+
     const [isQuizInProgress, setQuizInProgress] = useState(false);
-    const [currentQuizCategory, setCurrentQuizCategory] = useState(null);
+    // const [totalQuizPlayed, setTotalQuizPlayed] = useState(0);
+    // const [totalCorrectAnswers, setTotalCorrectTrueAnswers] = useState(0);
+    // const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
 
     const startQuiz = () => setQuizInProgress(true);
     const stopQuiz = () => setQuizInProgress(false);
-    const setCertainQuizCategory = (category) => setCurrentQuizCategory(category);
+
+    // const addTotalQuizPlayed = () => setTotalQuizPlayed(totalQuizPlayed + 1);
+
+    // const recordAnswers = (quizAnswer) =>  {
+    //     return quizAnswer
+    //         ? setTotalCorrectTrueAnswers(totalCorrectAnswers + 1)
+    //         : setTotalIncorrectAnswers(totalIncorrectAnswers + 1);
+    // }
 
     const value = {
         isQuizInProgress,
-        startQuiz,
         stopQuiz,
-        currentQuizCategory,
-        setCertainQuizCategory
+        startQuiz,
+        // recordAnswers,
+        // totalIncorrectAnswers,
+        // totalCorrectAnswers,
+        // totalQuizPlayed,
+        // addTotalQuizPlayed
     };
 
     return (
