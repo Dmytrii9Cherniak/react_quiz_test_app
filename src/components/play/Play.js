@@ -9,6 +9,7 @@ function Play() {
     const [testQuestions, setTestQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentQuizCategory] = useState(JSON.parse(localStorage.getItem('category')));
+    const [isRadioButtonSelected, setIsRadioButtonSelected] = useState(false);
     const { isQuizInProgress, startQuiz, stopQuiz, addTotalQuizPlayed } = useContext(QuizContext);
     const navigate = useNavigate();
 
@@ -45,6 +46,10 @@ function Play() {
         navigate('/results');
     }
 
+    const radioButtonGetValue = () => {
+        setIsRadioButtonSelected(true);
+    };
+
     return (
         <main>
             {!isQuizInProgress && (
@@ -72,41 +77,43 @@ function Play() {
                     </nav>
                     <article className="articleAnswers">
                         <p>{testQuestions[currentQuestionIndex].question}</p>
-
                         <div className="answersBlock">
                             <div className="form-check">
                                 <input
                                     className="form-check-input"
                                     type="radio"
                                     id="rightAnswer"
+                                    name="answerSelection" // Змінено ім'я на "answerSelection"
+                                    onChange={radioButtonGetValue}
                                     value={testQuestions[currentQuestionIndex].correct_answer}
                                 />
                                 <label className="form-check-label" htmlFor="rightAnswer">
                                     {testQuestions[currentQuestionIndex].correct_answer}
                                 </label>
                             </div>
+                            {testQuestions[currentQuestionIndex].incorrect_answers.map((answer, index) => (
+                                <div className="form-check" key={index}>
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        id={answer + index}
+                                        name="answerSelection" // Змінено ім'я на "answerSelection"
+                                        onChange={radioButtonGetValue}
+                                        value={answer}
+                                    />
+                                    <label className="form-check-label" htmlFor={answer + index}>
+                                        {answer}
+                                    </label>
+                                </div>
+                            ))}
                         </div>
-                        {testQuestions[currentQuestionIndex].incorrect_answers.map((answer, index) => (
-                            <div className="form-check" key={index}>
-                                <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    id={answer + index}
-                                    value={answer}
-                                />
-                                <label className="form-check-label" htmlFor={answer + index}>
-                                    {answer}
-                                </label>
-                            </div>
-                            )
-                        )}
                         {currentQuestionIndex !== 9 && (
-                            <button className="btn btn-secondary" onClick={nextQuestion}>
+                            <button className="btn btn-secondary" onClick={nextQuestion} disabled={!isRadioButtonSelected}>
                                 Next question
                             </button>
                         )}
                         {currentQuestionIndex === 9 && (
-                            <button className="btn btn-light" onClick={finishQuiz}>
+                            <button className="btn btn-light" onClick={finishQuiz} disabled={!isRadioButtonSelected}>
                                 Finish
                             </button>
                         )}

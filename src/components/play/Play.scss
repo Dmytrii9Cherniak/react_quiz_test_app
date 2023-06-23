@@ -30,6 +30,7 @@ main {
       display: flex;
       flex-direction: column;
       row-gap: 10px;
+      margin-top: 20px;
 
       .answersBlock {
         display: flex;
@@ -39,4 +40,49 @@ main {
     }
   }
 
+}
+
+@media screen and (max-width: 560px){
+  main {
+    text-align: center;
+    padding: 40px 40px;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+
+      .answersBlock {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        align-items: center;
+        column-gap: 20px;
+      }
+
+      article {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 360px){
+  main {
+
+    .form nav {
+      display: flex;
+      flex-direction: column;
+
+        button {
+          margin-top: 20px;
+        }
+    }
+
+    .startQuiz article {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+    }
+  }
 }
