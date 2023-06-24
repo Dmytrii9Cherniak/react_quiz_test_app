@@ -10,26 +10,33 @@ function Play() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentQuizCategory] = useState(JSON.parse(localStorage.getItem('category')));
     const [isRadioButtonSelected, setIsRadioButtonSelected] = useState(false);
-    const { isQuizInProgress, startQuiz, stopQuiz, addTotalQuizPlayed, recordAnswers } = useContext(QuizContext);
+    const {
+        isQuizInProgress,
+        startQuiz,
+        stopQuiz,
+        addTotalQuizPlayed,
+        recordAnswers,
+    } = useContext(QuizContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        currentQuizCategory && quizService
+        currentQuizCategory &&
+        quizService
             .getAllTestsQuestions(currentQuizCategory.id)
             .then((data) => setTestQuestions(data.results));
     }, [currentQuizCategory]);
 
     useEffect(() => {
-        console.log(isQuizInProgress)
-    }, [isQuizInProgress])
+
+    }, [currentQuizCategory, isRadioButtonSelected])
 
     const goHome = () => navigate('/home');
 
     const nextQuestion = () => {
-        if (currentQuestionIndex !== 9) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        }
-    }
+        currentQuestionIndex !== 9 &&
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        setIsRadioButtonSelected(false);
+    };
 
     const startMyCurrentQuiz = () => {
         startQuiz();
@@ -37,18 +44,18 @@ function Play() {
 
     const cancelMyCurrentQuiz = () => {
         stopQuiz();
-        navigate('/home')
+        navigate('/home');
     };
 
     const finishQuiz = () => {
         stopQuiz();
         addTotalQuizPlayed();
         navigate('/results');
-    }
+    };
 
     const radioButtonGetValue = (value) => {
-        setIsRadioButtonSelected(true);
         const isTrue = value === testQuestions[currentQuestionIndex].correct_answer;
+        setIsRadioButtonSelected(!isRadioButtonSelected);
         recordAnswers(isTrue);
     };
 
@@ -86,36 +93,52 @@ function Play() {
                                     type="radio"
                                     id="rightAnswer"
                                     name="answerSelection"
-                                    onChange={() => radioButtonGetValue(testQuestions[currentQuestionIndex].correct_answer)}
+                                    checked={isRadioButtonSelected}
+                                    onChange={() =>
+                                        radioButtonGetValue(
+                                            testQuestions[currentQuestionIndex].correct_answer
+                                        )
+                                    }
                                     value={testQuestions[currentQuestionIndex].correct_answer}
                                 />
                                 <label className="form-check-label" htmlFor="rightAnswer">
                                     {testQuestions[currentQuestionIndex].correct_answer}
                                 </label>
                             </div>
-                            {testQuestions[currentQuestionIndex].incorrect_answers.map((answer, index) => (
-                                <div className="form-check" key={index}>
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        id={answer + index}
-                                        name="answerSelection"
-                                        onChange={() => radioButtonGetValue(answer)}
-                                        value={answer}
-                                    />
-                                    <label className="form-check-label" htmlFor={answer + index}>
-                                        {answer}
-                                    </label>
-                                </div>
-                            ))}
+                            {testQuestions[currentQuestionIndex].incorrect_answers.map(
+                                (answer, index) => (
+                                    <div className="form-check" key={index}>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id={answer + index}
+                                            name="answerSelection"
+                                            checked={isRadioButtonSelected}
+                                            onChange={() => radioButtonGetValue(answer)}
+                                            value={answer}
+                                        />
+                                        <label className="form-check-label" htmlFor={answer + index}>
+                                            {answer}
+                                        </label>
+                                    </div>
+                                )
+                            )}
                         </div>
                         {currentQuestionIndex !== 9 && (
-                            <button className="btn btn-secondary" onClick={nextQuestion} disabled={!isRadioButtonSelected}>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={nextQuestion}
+                                disabled={!isRadioButtonSelected}
+                            >
                                 Next question
                             </button>
                         )}
                         {currentQuestionIndex === 9 && (
-                            <button className="btn btn-light" onClick={finishQuiz} disabled={!isRadioButtonSelected}>
+                            <button
+                                className="btn btn-light"
+                                onClick={finishQuiz}
+                                disabled={!isRadioButtonSelected}
+                            >
                                 Finish
                             </button>
                         )}
