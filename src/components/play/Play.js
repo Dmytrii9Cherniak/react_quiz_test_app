@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QuizContext } from '../../hoc/quizProvider';
 import { quizService } from '../../services/quizService';
+import QuizHeader from './quizHeader/QuizHeader';
 import '../play/Play.scss';
-import QuizHeader from "./quizHeader/QuizHeader";
 
 function Play() {
 
     const [testQuestions, setTestQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [currentQuizCategory] = useState(JSON.parse(localStorage.getItem('category')));
     const [isRadioButtonSelected, setIsRadioButtonSelected] = useState(false);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [currentQuizCategory] = useState(JSON.parse(localStorage.getItem('category')));
     const {
         isQuizInProgress,
         stopQuiz,
@@ -28,7 +29,7 @@ function Play() {
 
     const nextQuestion = () => {
         currentQuestionIndex !== 9 &&
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
         setIsRadioButtonSelected(false);
     };
 
@@ -45,7 +46,8 @@ function Play() {
 
     const radioButtonGetValue = (value) => {
         const isTrue = value === testQuestions[currentQuestionIndex].correct_answer;
-        setIsRadioButtonSelected(!isRadioButtonSelected);
+        setIsRadioButtonSelected(true);
+        setSelectedAnswer(value);
         recordAnswers(isTrue);
     };
 
@@ -69,12 +71,8 @@ function Play() {
                                     type="radio"
                                     id="rightAnswer"
                                     name="answerSelection"
-                                    checked={isRadioButtonSelected}
-                                    onChange={() =>
-                                        radioButtonGetValue(
-                                            testQuestions[currentQuestionIndex].correct_answer
-                                        )
-                                    }
+                                    checked={selectedAnswer === testQuestions[currentQuestionIndex].correct_answer}
+                                    onChange={() => radioButtonGetValue(testQuestions[currentQuestionIndex].correct_answer)}
                                     value={testQuestions[currentQuestionIndex].correct_answer}
                                 />
                                 <label className="form-check-label" htmlFor="rightAnswer">
@@ -89,10 +87,11 @@ function Play() {
                                             type="radio"
                                             id={answer + index}
                                             name="answerSelection"
-                                            checked={isRadioButtonSelected}
+                                            checked={selectedAnswer === answer}
                                             onChange={() => radioButtonGetValue(answer)}
                                             value={answer}
                                         />
+
                                         <label className="form-check-label" htmlFor={answer + index}>
                                             {answer}
                                         </label>
