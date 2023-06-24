@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QuizContext } from '../../hoc/quizProvider';
 import { quizService } from '../../services/quizService';
 import '../play/Play.scss';
+import QuizHeader from "./quizHeader/QuizHeader";
 
 function Play() {
 
@@ -12,7 +13,6 @@ function Play() {
     const [isRadioButtonSelected, setIsRadioButtonSelected] = useState(false);
     const {
         isQuizInProgress,
-        startQuiz,
         stopQuiz,
         addTotalQuizPlayed,
         recordAnswers,
@@ -26,20 +26,10 @@ function Play() {
             .then((data) => setTestQuestions(data.results));
     }, [currentQuizCategory]);
 
-    useEffect(() => {
-
-    }, [currentQuizCategory, isRadioButtonSelected])
-
-    const goHome = () => navigate('/home');
-
     const nextQuestion = () => {
         currentQuestionIndex !== 9 &&
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
         setIsRadioButtonSelected(false);
-    };
-
-    const startMyCurrentQuiz = () => {
-        startQuiz();
     };
 
     const cancelMyCurrentQuiz = () => {
@@ -61,21 +51,7 @@ function Play() {
 
     return (
         <main>
-            {!isQuizInProgress && (
-                <div className="startQuiz">
-                    <h1>Welcome to the Quiz!</h1>
-                    <h2>Quiz Title - {currentQuizCategory.name}</h2>
-                    <h2>Number of questions in the quiz - 10</h2>
-                    <article>
-                        <button className="btn btn-primary" onClick={goHome}>
-                            Change Category
-                        </button>
-                        <button onClick={startMyCurrentQuiz} className="btn btn-secondary">
-                            Play
-                        </button>
-                    </article>
-                </div>
-            )}
+            {!isQuizInProgress && (<QuizHeader />)}
             {isQuizInProgress && testQuestions.length > 0 && (
                 <div className="form">
                     <nav>

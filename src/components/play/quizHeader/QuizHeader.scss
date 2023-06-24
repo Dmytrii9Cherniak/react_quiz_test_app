@@ -1,0 +1,21 @@
+.startQuiz {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  row-gap: 16px;
+
+  article {
+    display: flex;
+    column-gap: 26px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+ .startQuiz article {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+    }
+}

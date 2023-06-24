@@ -4,20 +4,6 @@ main {
   display: flex;
   justify-content: center;
 
-  .startQuiz {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    row-gap: 16px;
-
-    article {
-      display: flex;
-      column-gap: 26px;
-    }
-  }
-
   .form {
 
     nav {
@@ -79,10 +65,5 @@ main {
         }
     }
 
-    .startQuiz article {
-      display: flex;
-      flex-direction: column;
-      row-gap: 20px;
-    }
   }
 }
