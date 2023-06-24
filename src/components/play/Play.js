@@ -28,9 +28,12 @@ function Play() {
     }, [currentQuizCategory]);
 
     const nextQuestion = () => {
+        recordAnswers(selectedAnswer === testQuestions[currentQuestionIndex].correct_answer);
+
         currentQuestionIndex !== 9 &&
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setIsRadioButtonSelected(false);
+        setSelectedAnswer(null);
     };
 
     const cancelMyCurrentQuiz = () => {
@@ -41,14 +44,13 @@ function Play() {
     const finishQuiz = () => {
         stopQuiz();
         addTotalQuizPlayed();
+        recordAnswers(selectedAnswer === testQuestions[currentQuestionIndex].correct_answer);
         navigate('/results');
     };
 
     const radioButtonGetValue = (value) => {
-        const isTrue = value === testQuestions[currentQuestionIndex].correct_answer;
-        setIsRadioButtonSelected(true);
+        setIsRadioButtonSelected(true)
         setSelectedAnswer(value);
-        recordAnswers(isTrue);
     };
 
     return (

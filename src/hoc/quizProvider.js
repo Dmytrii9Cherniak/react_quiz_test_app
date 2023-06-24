@@ -26,10 +26,9 @@ export const QuizProvider = ({ children }) => {
         startQuiz,
         addTotalQuizPlayed,
         recordAnswers,
-        // totalIncorrectAnswers,
-        // totalCorrectAnswers,
+        totalIncorrectAnswers,
+        totalCorrectAnswers,
         totalQuizPlayed,
-        // addTotalQuizPlayed
     };
 
     return (
